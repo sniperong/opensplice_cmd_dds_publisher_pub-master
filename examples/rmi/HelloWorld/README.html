@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Vortex OpenSplice examples - HelloWorld</title>
+<link rel="stylesheet" href="../../../docs/css/prismstyle.css" type="text/css">
+</head>
+
+<body>
+<h1> Vortex OpenSplice RMI EXAMPLES </h1>
+<ul>
+  <li>HelloWorld</li>
+  <li><a href ="../ClientServer/README.html">ClientServer </a></li>
+  <li><a href ="../Printer/README.html">Printer </a></li>
+</ul>
+<h2>HelloWorld</h2>
+
+<h3>Description</h3>
+<p>This example is a very simple application that illustrates the basic steps of writing a client/server
+application using synchronous and asynchronous invocation modes provided by Vortex OpenSplice RMI.</p>
+
+<h3>Design</h3>
+<p>It consists of 3 applications :</p>
+<ul>
+    <li>server : implements the <i>HelloService</i> interface and activates it.</li>
+    <li>client : invokes synchronously a <i>greet</i> operation of the <i>HelloService</i> interface
+    and requests the server to stop.</li>
+    <li>async_client : invokes asynchronously the <i>greet</i> operation of the <i>HelloService</i> interface,
+    and requests the server to stop.</li>
+</ul>
+
+<h3>Scenario</h3>
+<p>The server starts the RMI runtime, registers the service interface, then activates it.
+The client starts the RMI runtime, creates a service proxy and invokes all the provided operations.</p>
+
+<h3>Building</h3>
+<p>Building the examples is described on the <a href ="../README.html">Summary page></a></p>
+
+<h3>Running</h3>
+<p>Prior to run any RMI example, ensure that the Vortex OpenSplice environment is correctly
+set (see <a href ="../README.html#env_setup">Environment Setup</a>).
+
+<h4>Deployment modes</h4>
+<p>Vortex OpenSplice can be configured to run using a shared memory architecture, where both the DDS
+related administration and DDS applications interface directly with shared memory. Alternatively, Vortex OpenSplice
+also supports a single process library architecture, where one or more DDS
+applications, together with the Vortex OpenSplice administration, can all be
+grouped into a single operating system process. The single process mode is the default mode.</p>
+
+<p>The deployment mode is specified in an XML configuration file that is passed to the middleware via an environment
+variable named <i>OSPL_URI</i>. A set of predefined configuration files are already provided in $OSPL_HOME/etc/config
+directory of the Vortex OpenSplice distribution.</p>
+
+<p> To enable the shared memory deployment mode, the OSPL_URI variable
+must be set to the following URI : <i>OSPL_URI=file://$OSPL_HOME/etc/config/ospl_shmem_ddsi.xml</i>.
+Note that the shared memory mode requires the starting of the Vortex OpenSplice daemon prior to any RMI application.
+This is done with the following command : <i>ospl start</i>.</p>
+
+<p>For more information about the Vortex OpenSplice deployment modes, please refer to the related documentation in the distribution.
+</p>
+
+<h4>C++</h4>
+
+<p>Three executables are generated for this example: client, async_client and server.</p>
+<p>
+On linux, for synchronous invocations perform the following commands:
+<pre>
+    $ ./server &
+    === getDefaultRuntime
+    === Runtime start
+    === Registering the server ...
+    === Ready ...
+    HelloService activated.
+
+    $ ./client
+    === getDefaultRuntime
+    === Runtime start
+    === Getting the server proxy ...
+    === Succeeded in getting the server proxy named HelloWorldServer :
+    === greet
+    === greet returns : Hello World !
+    === stop
+    === service shutdown
+    HelloService stopped.
+    === stop done
+    === Runtime stop
+</pre>
+
+<p>
+For asynchronous invocation :
+<pre>
+    $ ./server &
+    === getDefaultRuntime
+    === Runtime start
+    === Registering the server ...
+    === Ready ...
+    HelloService activated.
+
+    $ ./async_client
+    === getDefaultRuntime
+    === Runtime start
+    === Getting the server proxy ...
+    === Succeeded in getting the server proxy named HelloWorldServer :
+    === async_greet
+    async_greet returns: Hello World !
+    === stop
+    === service shutdown
+    HelloService stopped.
+    === service shutdown
+    === stop done
+    === Runtime stop
+</pre>
+</p>
+
+<h4><balise id = "Java">Java</balise></h4>
+<p>A set of two or three jar files are generated for each example. You can either add
+these jars to the classpath or simply add the 'classes' directory to the current classpath, as follows :
+<pre>
+//on Linux
+    $ export CLASSPATH=./classes:$OSPL_HOME/jar/ddsrmi.jar:$CLASSPATH
+
+//on Windows
+    > set CLASSPATH=classes;%OSPL_HOME%\jar\ddsrmi.jar;%CLASSPATH%
+</pre>
+<p>
+Running the server on Linux:
+<pre>
+    $ java dds.rmi.example.helloworld.server &
+    === Getting a DDS Runtime instance
+    === Starting the DDS Runtime
+    === Creating a server
+    === Server Name=HelloServer , Instance ID=1
+    === Ready ...
+    HelloService activated.
+</pre>
+
+Running the synchronous client (making synchronous invocation) :
+<pre>
+    $ java dds.rmi.example.helloworld.client
+    === Getting a DDS Runtime instance
+    === Starting the DDS Runtime
+    === Server Name=HelloServer proxyInstanceID=1
+        === greet
+        === greet returns Hello World !
+        === stop
+    === service shutdown
+    HelloService stopped.
+    === Stopping the DDS Runtime
+        === stop done
+    === Stopping the DDS Runtime
+</pre>
+
+Running the asynchronous client (making asynchronous invocation):
+<pre>
+    $ java dds.rmi.example.helloworld.async_client
+    === Getting a DDS Runtime instance
+    === Starting the DDS Runtime
+    === Server Name=HelloServer proxyInstanceID=1
+        === async_greet
+        === async_greet returns Hello World !
+        === stop
+    === service shutdown
+    HelloService stopped.
+    === Stopping the DDS Runtime
+        === stop done
+    === Stopping the DDS Runtime
+</pre>
+
+</body>
+</html>

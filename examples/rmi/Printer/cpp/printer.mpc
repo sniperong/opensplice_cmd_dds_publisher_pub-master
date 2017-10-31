@@ -1,0 +1,26 @@
+// -*- MPC -*-
+// $Id:$
+
+project (rmi*server) : rmi_sacpp_typesupport, c_or_cplusplus_example {
+    requires += dcps_sacpp_example
+    RMITypes_Files {
+         ../idl/Printer.idl
+    }
+    Source_Files {
+        src/server.cpp
+        src/PrinterImpl.cpp
+        src/PrinterManagerImpl.cpp
+    }
+}
+
+project (rmi*client) : rmi_sacpp_typesupport, c_or_cplusplus_example {
+    requires += dcps_sacpp_example
+    after += rmi*server
+    RMITypes_Files {
+         ../idl/Printer.idl
+    }
+    Source_Files {
+        src/client.cpp
+        src/ReplyHandlers.cpp
+    }
+}

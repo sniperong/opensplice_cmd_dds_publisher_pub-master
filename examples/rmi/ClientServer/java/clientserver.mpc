@@ -1,0 +1,50 @@
+// -*- MPC -*-
+// $Id:$
+project (rmi_saj*types) : rmi_saj_typesupport, java_ospl_ddsrmi, java_example {
+  specific {
+        genflags =
+        compile_flags =
+        targetoutdir =
+  }
+  staticname = *
+  postclean = <%rmdir%> ClientServer <%cmdsep%> <%rmdir%> DDS_RMI
+
+  RMITypes_Files {
+      ../idl/ClientServer.idl >> ClientServer/*.java \
+                                 DDS_RMI/ClientServer/*.java \
+                                 DDS_RMI/ClientServer/myServer/*.java
+  }
+}
+
+project (rmi_saj*client) : java_ospl_ddsrmi, java_example {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.client
+    specific {
+        obj_dir_flat = 1
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>
+    }
+    specific (javabat) {
+        extra_ar_objs = -C classes/ .
+    }
+
+    Source_Files {
+        src/client.java
+    }
+}
+
+
+project (rmi_saj*server) : java_ospl_ddsrmi, java_example {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.server
+    specific {
+        obj_dir_flat = 1
+        compile_flags += -sourcepath src
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>
+    }
+    Source_Files {
+        src/myServerImpl.java
+        src/server.java
+    }
+}

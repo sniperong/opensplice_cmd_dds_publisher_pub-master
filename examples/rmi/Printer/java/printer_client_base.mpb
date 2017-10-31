@@ -1,0 +1,24 @@
+// -*- MPC -*-
+// $Id:$
+
+// On Solaris make we need 4 to deal $s with the inner class...)
+feature (ospl_os_solaris) {
+    // This is what has to happen when you don't write public top level classes :(
+    verbatim (ospljavamake, macros) {
+        // Solaris make would need 4 (!!!) $s as below, but then gmake (if the user was using that) would error
+        // CLASSES       += "classes/dds/rmi/example/printer/client$$$$PrintDocReplyHandler.class" "classes/dds/rmi/example/printer/client$$$$StopReplyHandler.class"
+        // So we don't add the extra CLASSES entry. Only effect is make clean doesn't delete these classes (make realclean does)
+        JARCLASSES    += dds/rmi/example/printer/client\\$$PrintDocReplyHandler.class dds/rmi/example/printer/client\\$$StopReplyHandler.class
+    }
+    // :( Ends
+}
+
+// With gmake we don't.
+feature (! ospl_os_solaris) {
+    // This is what has to happen when you don't write public top level classes :(
+    verbatim (ospljavamake, macros) {
+        CLASSES       += "classes/dds/rmi/example/printer/client$$PrintDocReplyHandler.class" "classes/dds/rmi/example/printer/client$$StopReplyHandler.class"
+        JARCLASSES    += dds/rmi/example/printer/client\\$$PrintDocReplyHandler.class dds/rmi/example/printer/client\\$$StopReplyHandler.class
+    }
+    // :( Ends
+}

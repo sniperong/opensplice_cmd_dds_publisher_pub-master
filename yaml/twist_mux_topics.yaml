@@ -1,0 +1,11 @@
+topics:
+  -
+    name    : user
+    topic   : cmd_vel_user
+    timeout : 0.5
+    priority: 101
+  -
+    name    : dds
+    topic   : cmd_vel_dds
+    timeout : 0.5
+    priority: 102

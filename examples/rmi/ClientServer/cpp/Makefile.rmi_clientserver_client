@@ -1,0 +1,123 @@
+# -*-Makefile-*-
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+
+CC            = gcc
+CXX           = g++
+LD            = $(CXX) $(CCFLAGS) $(PICFLAGS) $(GENFLAGS)
+AR            = ar
+PICFLAGS      = -fPIC
+CPPFLAGS      = $(PICFLAGS) $(GENFLAGS) -D_REENTRANT -D_POSIX_C_SOURCE=200112L -D_XOPEN_SOURCE=500 -Wall -Wno-unused-function -I"../../../../include" -I"../../../../include/sys" -I"../../../../include/dcps/C++/SACPP" -I"../../../../include/rmi" -I"." -I"../../../../examples/include" -I"../../../../examples"
+OBJEXT        = .o
+OUTPUT_OPTION = -o "$@"
+COMPILE.c     = $(CC) $(CFLAGS) $(CPPFLAGS) -c
+COMPILE.cc    = $(CXX) $(CCFLAGS) $(CPPFLAGS) -c
+LDFLAGS       = -L"." -L"../../../../lib" -Wl,-rpath,\$$ORIGIN -Wl,-rpath,\$$ORIGIN/../../../../lib
+CCC           = $(CXX)
+MAKEFILE      = Makefile.rmi_clientserver_client
+DEPENDENCIES  = $(MAKEFILE)
+BTARGETDIR    = ./
+BIN           = $(BTARGETDIR)client$(EXESUFFIX)$(EXEEXT)
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+EXEEXT        = 
+LIBPREFIX     = lib
+LIBSUFFIX     = 
+GENFLAGS      = -O3 -DNDEBUG
+LDLIBS        = -l"ddsrmi" -l"dcpssacpp" -l"ddskernel" -ldl $(subst lib,-l,$(sort $(basename $(notdir $(wildcard /usr/lib/librt.so /lib/librt.so))))) -lpthread
+OBJS          = .obj$(CFG)/ClientServer_InterfaceProxy$(OBJEXT) .obj$(CFG)/ClientServerDcps_impl$(OBJEXT) .obj$(CFG)/ClientServer$(OBJEXT) .obj$(CFG)/ClientServer_TopicsDcps$(OBJEXT) .obj$(CFG)/ClientServer_TopicsDcps_impl$(OBJEXT) .obj$(CFG)/ClientServer_TopicsSplDcps$(OBJEXT) .obj$(CFG)/ClientServer_Topics$(OBJEXT) .obj$(CFG)/ClientServerSplDcps$(OBJEXT) .obj$(CFG)/ClientServer_Interface$(OBJEXT) .obj$(CFG)/ClientServerDcps$(OBJEXT) .obj$(CFG)/client$(OBJEXT)
+SRC           = ClientServer_InterfaceProxy.cpp ClientServerDcps_impl.cpp ClientServer.cpp ClientServer_TopicsDcps.cpp ClientServer_TopicsDcps_impl.cpp ClientServer_TopicsSplDcps.cpp ClientServer_Topics.cpp ClientServerSplDcps.cpp ClientServer_Interface.cpp ClientServerDcps.cpp src/client.cpp
+LINK.cc       = $(LD) $(LDFLAGS)
+EXPORTFLAGS   = 
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(BIN)
+
+$(BIN): $(OBJS)
+	@$(TESTDIRSTART) "$(BTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(BTARGETDIR)"
+	$(LINK.cc) $(OBJS) $(LDLIBS) $(OUTPUT_OPTION)
+
+GENERATED_DIRTY = ClientServer_InterfaceProxy.h ClientServer_TopicsDcps_impl.h ClientServer_InterfaceProxy.cpp ClientServerDcps_impl.cpp ClientServer.cpp ClientServer_TopicsDcps.cpp ClientServer_TopicsDcps_impl.cpp ClientServer_TopicsSplDcps.cpp ClientServer_Topics.cpp ClientServerSplDcps.cpp ClientServer_Interface.cpp ClientServerDcps.cpp ClientServer_Topics.idl ccpp_ClientServer.h ClientServerSplDcps.h ccpp_ClientServer_Topics.h ClientServerDcps_impl.h ClientServerDcps.h ClientServer_TopicsSplDcps.h ClientServer_Interface.h ClientServer_TopicsDcps.h ClientServer_Topics.h ClientServer.h
+
+export DYLD_LIBRARY_PATH := $(DYLD_LIBRARY_PATH):../../../../bin:../../../../lib
+export LD_LIBRARY_PATH   := $(LD_LIBRARY_PATH):../../../../bin:../../../../lib
+export SHLIB_PATH        := $(SHLIB_PATH):../../../../bin:../../../../lib
+export LIBPATH           := $(LIBPATH):../../../../bin:../../../../lib
+export PATH              := $(PATH):../../../../bin:../../../../lib
+
+.NOTPARALLEL:
+ClientServer_InterfaceProxy.h ClientServer_TopicsDcps_impl.h ClientServer_InterfaceProxy.cpp ClientServerDcps_impl.cpp ClientServer.cpp ClientServer_TopicsDcps.cpp ClientServer_TopicsDcps_impl.cpp ClientServer_TopicsSplDcps.cpp ClientServer_Topics.cpp ClientServerSplDcps.cpp ClientServer_Interface.cpp ClientServerDcps.cpp ClientServer_Topics.idl ccpp_ClientServer.h ClientServerSplDcps.h ccpp_ClientServer_Topics.h ClientServerDcps_impl.h ClientServerDcps.h ClientServer_TopicsSplDcps.h ClientServer_Interface.h ClientServer_TopicsDcps.h ClientServer_Topics.h ClientServer.h: ../idl/ClientServer.idl
+	"../../../../bin/rmipp" -l cpp ../idl/ClientServer.idl
+
+.PRECIOUS: $(GENERATED_DIRTY)
+$(OBJS): $(GENERATED_DIRTY)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+.obj$(CFG)/ClientServer_InterfaceProxy$(OBJEXT): ClientServer_InterfaceProxy.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer_InterfaceProxy.cpp
+
+.obj$(CFG)/ClientServerDcps_impl$(OBJEXT): ClientServerDcps_impl.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServerDcps_impl.cpp
+
+.obj$(CFG)/ClientServer$(OBJEXT): ClientServer.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer.cpp
+
+.obj$(CFG)/ClientServer_TopicsDcps$(OBJEXT): ClientServer_TopicsDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer_TopicsDcps.cpp
+
+.obj$(CFG)/ClientServer_TopicsDcps_impl$(OBJEXT): ClientServer_TopicsDcps_impl.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer_TopicsDcps_impl.cpp
+
+.obj$(CFG)/ClientServer_TopicsSplDcps$(OBJEXT): ClientServer_TopicsSplDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer_TopicsSplDcps.cpp
+
+.obj$(CFG)/ClientServer_Topics$(OBJEXT): ClientServer_Topics.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer_Topics.cpp
+
+.obj$(CFG)/ClientServerSplDcps$(OBJEXT): ClientServerSplDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServerSplDcps.cpp
+
+.obj$(CFG)/ClientServer_Interface$(OBJEXT): ClientServer_Interface.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer_Interface.cpp
+
+.obj$(CFG)/ClientServerDcps$(OBJEXT): ClientServerDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServerDcps.cpp
+
+.obj$(CFG)/client$(OBJEXT): src/client.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/client.cpp
+
+clean:
+	-$(RM) $(OBJS)
+
+realclean: clean
+	-$(RM) $(BIN)
+	-$(RM) $(GENERATED_DIRTY)
+	-$(RM) .obj$(CFG)/
+
+check-syntax:
+	$(COMPILE.cc) $(EXPORTFLAGS) $(CHK_SOURCES)
+

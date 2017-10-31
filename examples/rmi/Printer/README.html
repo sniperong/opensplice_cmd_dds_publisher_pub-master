@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Vortex OpenSplice examples - Printer</title>
+<link rel="stylesheet" href="../../../docs/css/prismstyle.css" type="text/css">
+</head>
+
+<body>
+<h1> Vortex OpenSplice RMI EXAMPLES </h1>
+<ul>
+  <li><a href ="../HelloWorld/README.html">HelloWorld </a></li>
+  <li><a href ="../ClientServer/README.html">ClientServer </a></li>
+  <li>Printer</li>
+</ul>
+<h2>Printer</h2>
+
+<h3>Description</h3>
+<p>This example is an advanced example that demonstrates the usage of synchronous and asynchronous
+invocation modes.</p>
+
+<h3>Design</h3>
+<p> The Printer example consists of two RMI services: (1)the <i>Printer</i> service that allows to
+print documents and to get information about the printer, and (2) the <i>PrinterManager</i> service
+that is a factory of Printers. It allows to find all the deployed Printer services names, as well as
+ to find the closest Printer given an office location. Around these services, a client and a server
+ applications are provided to respectively invoke and activate the services.
+
+<h3>Scenario</h3>
+<p>The server starts the RMI runtime, registers the <i>PrinterManager</i> service interface, then activates it.
+When created, the <i>PrinterManager</i> service registers and activates three different <i>Printer</i>
+services.
+The client starts the RMI runtime, gets first a <i>PrinterManager</i> proxy and invokes it synchronously
+to get all the available printers, then three closest ones. Then, it gets 3 proxies of the corresponding
+services. Using these proxies, it submits 4 documents to print using asynchronous invocations and displays
+the printing report.
+Finally, the client stops the <i>PrinterManager</i> service that, in its turn, stops all the deployed
+<i>Printer</i> services.
+</p>
+
+<h3>Building</h3>
+<p>Building the examples is described on the <a href ="../README.html">Summary page></a></p>
+
+<h3>Running</h3>
+
+<h4>Deployment modes</h4>
+<p>Vortex OpenSplice can be configured to run using a shared memory architecture, where both the DDS
+related administration and DDS applications interface directly with shared memory. Alternatively, Vortex OpenSplice
+also supports a single process library architecture, where one or more DDS
+applications, together with the Vortex OpenSplice administration, can all be
+grouped into a single operating system process. The single process mode is the default mode.</p>
+
+<p>The deployment mode is specified in an XML configuration file that is passed to the middleware via an environment
+variable named <i>OSPL_URI</i>. A set of predefined configuration files are already provided in $OSPL_HOME/etc/config
+directory of the Vortex OpenSplice distribution.</p>
+
+<p> To enable the shared memory deployment mode, the OSPL_URI variable
+must be set to the following URI : <i>OSPL_URI=file://$OSPL_HOME/etc/config/ospl_shmem_ddsi.xml</i>.
+Note that the shared memory mode requires the starting of the Vortex OpenSplice daemon prior to any RMI application.
+This is done with the following command : <i>ospl start</i>.</p>
+
+<p>For more information about the Vortex OpenSplice deployment modes, please refer to the related documentation in the distribution.
+</p>
+
+<h4><balise id="C++">C++</balise></h4>
+
+<p>Two executables are generated for this example: client and server.</p>
+<p>
+On linux, please perform the following commands:
+<pre>
+    $ ./server &
+    === Getting the default RMI runtime ...
+    === Starting the RMI Runtime ...
+    === Creating a PrinterManager service ...
+    Printer HPLaserJetColor activated.
+    Printer BrotherHL-5280 activated.
+    Printer EPSON-EPL-7500 activated.
+    === Ready ...
+    PrinterManager service activated.
+
+    $ ./client
+    === Getting the default RMI runtime ...
+    === Starting the RMI Runtime ...
+    === Getting the PrinterManager proxy ...
+    === Succeeded in getting the PrinterManager proxy
+    Available printers :
+        HPLaserJetColor
+        BrotherHL-5280
+        EPSON-EPL-7500
+    The closest printer to R100 is BrotherHL-5280
+    The closest printer to R410 is HPLaserJetColor
+    The closest printer to R120 is EPSON-EPL-7500
+    Submitting document Document_0 to printer BrotherHL-5280 located at R115
+    Printing document Document_0 ...
+    Printer report ==>
+        Printer: BrotherHL-5280
+        jobId : 0
+         document : Document_0
+         status : P_ERR
+         message : Printer Error occured !
+    Submitting document Document_1 to printer HPLaserJetColor located at R324
+    Printing document Document_1 ...
+    Submitting document Document_2 to printer EPSON-EPL-7500 located at R245
+    Printer report ==>
+        Printer: HPLaserJetColor
+        jobId : 1
+         document : Document_1
+         status : OK
+         message : Succeeded in printing the document !
+    Printer report ==>
+        Printer: EPSON-EPL-7500
+        jobId : -1
+         document : Document_2
+         pages :
+         status : NO_COLOR
+         message : The Printer is BW !
+    Submitting document Document_3 to printer BrotherHL-5280 located at R115
+    Printing document Document_3 ...
+    Printer report ==>
+        Printer: BrotherHL-5280
+        jobId : 2
+         document : Document_3
+         status : OK
+         message : Succeeded in printing the document !
+    Requesting the PrinterManager to stop ...
+    The PrinterManager service will stop all the printers services ...
+    Printer HPLaserJetColor stopped.
+    Printer HPLaserJetColor stopped.
+    Printer BrotherHL-5280 stopped.
+    Printer BrotherHL-5280 stopped.
+    Printer EPSON-EPL-7500 stopped.
+    Printer EPSON-EPL-7500 stopped.
+    The PrinterManager service will stop ...
+    PrinterManager service stopped.
+----------------------------------
+-- PRINTERS REPORTS --------------
+----------------------------------
+
+        Printer: BrotherHL-5280
+        jobId : 0
+         document : Document_0
+         status : P_ERR
+         message : Printer Error occured !
+        Printer: HPLaserJetColor
+        jobId : 1
+         document : Document_1
+         status : OK
+         message : Succeeded in printing the document !
+        Printer: EPSON-EPL-7500
+        jobId : -1
+         document : Document_2
+         pages :
+         status : NO_COLOR
+         message : The Printer is BW !
+        Printer: BrotherHL-5280
+        jobId : 2
+         document : Document_3
+         status : OK
+         message : Succeeded in printing the document !
+----------------------------------
+    === Runtime stop
+</pre>
+
+</p>
+
+<h4><balise id = "Java">Java</balise></h4>
+<p>A set of two or three jar files are generated for each example. You can either add
+these jars to the classpath or simply add the 'classes' directory to the current classpath, as follows :
+<pre>
+//on Linux
+    $ export CLASSPATH=./classes:$OSPL_HOME/jar/ddsrmi.jar:$CLASSPATH
+
+//on Windows
+    > set CLASSPATH=classes;%OSPL_HOME%\jar\ddsrmi.jar;%CLASSPATH%
+</pre>
+<p>
+Running the server :
+<pre>
+    $ java dds.rmi.example.printer.server &
+</pre>
+<p>
+Running the client :
+<pre>
+    $ java dds.rmi.example.printer.client
+</pre>
+
+<p>
+The commands output are the same as the C++ examples above.
+</p>
+
+</body>
+</html>

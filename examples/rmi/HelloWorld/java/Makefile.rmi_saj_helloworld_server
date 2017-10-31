@@ -1,0 +1,69 @@
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+JAVAC         = $(SPLICE_JAVAC)
+JAR           = jar
+JAVACFLAGS    = $(GENFLAGS)
+CLASSEXT      = .class
+CLASSDIR      = classes/
+OUTPUT_OPTION = -d $(CLASSDIR)
+COMPILE.java  = $(JAVAC) $(JAVACFLAGS) -cp $(JAVACCPATH) 
+JAVACCPATH    = "$(SPLICE_EXTRA_CP):rmi_saj_helloworld_types.jar:$(CLASSDIR):../../../../jar/ddsrmi.jar:../../../../jar/dcpssaj.jar:"
+MAKEFILE      = Makefile.rmi_saj_helloworld_server
+DEPENDENCIES  = $(MAKEFILE)
+LTARGETDIR    = ./
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+GENFLAGS      =  
+CLASSES       =  $(CLASSDIR)dds/rmi/example/helloworld/server$(CLASSEXT)
+JARCLASSES    =  dds/rmi/example/helloworld/server$(CLASSEXT)
+JAREXT        = .jar
+MAINCLASS     = dds.rmi.example.helloworld.server
+JARFILE       = $(LTARGETDIR)$(LIBPREFIX)rmi_saj_helloworld_server$(LIBSUFFIX)$(JAREXT)
+MANIFEST      = rmi_saj_helloworld_server.manifest
+JARFLAGS      = cvfm
+SRC           = src/dds/rmi/example/helloworld/server.java
+CLASSES       += classes/dds/rmi/example/helloworld/HelloServiceImpl.class
+JARCLASSES    += dds/rmi/example/helloworld/HelloServiceImpl.class
+
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(JARFILE)
+
+$(JARFILE): $(CLASSES) $(CLASSDIR)$(MANIFEST)
+	@$(TESTDIRSTART) "$(LTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(LTARGETDIR)"
+	cd $(CLASSDIR) && $(JAR) $(JARFLAGS) $(JARFILE) $(MANIFEST) $(JARCLASSES) 
+	$(MV) $(CLASSDIR)/$(JARFILE) .
+
+$(CLASSDIR)$(MANIFEST):
+	echo Class-Path: rmi_saj_helloworld_types.jar ../../../../jar/ddsrmi.jar ../../../../jar/dcpssaj.jar > $(CLASSDIR)$(MANIFEST)
+	echo Main-Class: $(MAINCLASS) >> $(CLASSDIR)$(MANIFEST)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+$(CLASSDIR)dds/rmi/example/helloworld/server$(CLASSEXT): src/dds/rmi/example/helloworld/server.java
+	@$(TESTDIRSTART) "$(CLASSDIR)dds/rmi/example/helloworld/" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)dds/rmi/example/helloworld/"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/dds/rmi/example/helloworld/server.java
+
+clean:
+	-$(RM) $(CLASSES)
+
+realclean: clean
+	-$(RM) $(BIN)
+	-$(RM) $(CLASSDIR)$(MANIFEST)
+	-$(RM) dds/rmi/example/helloworld/
+
+check-syntax:
+	$(COMPILE.java) $(EXPORTFLAGS) $(CHK_SOURCES)
+

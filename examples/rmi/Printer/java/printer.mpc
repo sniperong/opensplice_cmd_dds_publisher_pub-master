@@ -1,0 +1,59 @@
+// -*- MPC -*-
+// $Id:$
+
+project (rmi_saj*types) : rmi_saj_typesupport, java_ospl_ddsrmi, java_example {
+  specific {
+        genflags =
+        compile_flags =
+        targetoutdir =
+  }
+  staticname = *
+  postclean = <%rmdir%> printer <%cmdsep%> <%rmdir%> DDS_RMI
+
+  RMITypes_Files {
+      ../idl/Printer.idl >> DDS_RMI/printer/*.java \
+                            DDS_RMI/printer/PrinterManager/*.java \
+                            DDS_RMI/printer/Printer/*.java \
+                            printer/*.java
+  }
+}
+
+project (rmi_saj*client) : java_ospl_ddsrmi, java_example, printer_client_base {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.printer.client
+    specific {
+        obj_dir_flat = 1
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>printer<%slash%>
+        compile_flags += -sourcepath src
+    }
+
+    Source_Files {
+        src/dds/rmi/example/printer/client.java
+    }
+    // This is what has to happen when you don't write public top level classes :(
+    specific (javabat) {
+        extra_jar_classes = dds\rmi\example\printer\client$PrintDocReplyHandler.class dds\rmi\example\printer\client$StopReplyHandler.class
+    }
+    postclean = <%rm%> classes<%slash%>dds<%slash%>rmi<%slash%>example<%slash%>printer<%slash%>client*
+}
+
+
+project (rmi_saj*server) : java_ospl_ddsrmi, java_example {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.printer.server
+    specific {
+        obj_dir_flat = 1
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>printer<%slash%>
+        compile_flags += -sourcepath src
+    }
+    specific (javabat) {
+        extra_ar_objs = -C classes/ .
+    }
+    Source_Files {
+        src/dds/rmi/example/printer/server.java
+        src/dds/rmi/example/printer/PrinterImpl.java
+        src/dds/rmi/example/printer/PrinterManagerImpl.java
+    }
+}

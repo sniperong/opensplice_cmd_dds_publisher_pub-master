@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Vortex OpenSplice examples - ClientServer</title>
+<link rel="stylesheet" href="../../../docs/css/prismstyle.css" type="text/css">
+</head>
+
+<body>
+<h1> Vortex OpenSplice RMI EXAMPLES </h1>
+<ul>
+  <li><a href ="../HelloWorld/README.html">HelloWorld </a></li>
+  <li>ClientServer</li>
+  <li><a href ="../Printer/README.html">Printer </a></li>
+</ul>
+<h2> ClientServer</h2>
+
+<h3>Description</h3>
+<p>This example is a simple client and server application demonstrating synchronous RMI invocations
+of a rich set of IDL operations. It mainly demonstrates the java and C++ mapping of different IDL operation
+signatures defining the service interface.
+<h3>Design</h3>
+<p>It consists of 2 applications :</p>
+<ul><li>Client : invokes multiple operations of the service interface.</li>
+	<li>Server : implements the service interface and activates it.
+</li></ul>
+<h3>Scenario</h3>
+<p>The client starts the RMI runtime, creates a service proxy and invokes all the provided operations.
+ The server starts the RMI runtime, registers the service interface, then activates it. </p>
+
+<h3>Building</h3>
+<p>Building the examples is described on the <a href ="../README.html">Summary page></a></p>
+
+<h3>Running</h3>
+
+
+<h4>Deployment modes</h4>
+<p>Vortex OpenSplice can be configured to run using a shared memory architecture, where both the DDS
+related administration and DDS applications interface directly with shared memory. Alternatively, Vortex OpenSplice
+also supports a single process library architecture, where one or more DDS
+applications, together with the Vortex OpenSplice administration, can all be
+grouped into a single operating system process. The single process mode is the default mode.</p>
+
+<p>The deployment mode is specified in an XML configuration file that is passed to the middleware via an environment
+variable named <i>OSPL_URI</i>. A set of predefined configuration files are already provided in $OSPL_HOME/etc/config
+directory of the Vortex OpenSplice distribution.</p>
+
+<p> To enable the shared memory deployment mode, the OSPL_URI variable
+must be set to the following URI : <i>OSPL_URI=file://$OSPL_HOME/etc/config/ospl_shmem_ddsi.xml</i>.
+Note that the shared memory mode requires the starting of the Vortex OpenSplice daemon prior to any RMI application.
+This is done with the following command : <i>ospl start</i>.</p>
+
+<p>For more information about the Vortex OpenSplice deployment modes, please refer to the related documentation in the distribution.
+</p>
+
+<h4><balise id="C++">C++</balise></h4>
+
+<p>Two executables are generated for this example: client and server. The client application requires two arguments,
+the server name and a client id. the client id is a unique integer denoting the client identity. The server
+application requires two arguments, the server name and a server instance id.</p>
+<p>
+On linux, please perform the following commands:
+<pre>
+    $ ./server myServer 1 &
+    === getDefaultRuntime
+    === Runtime start
+    === Registering the server ...
+    === Ready ...
+
+    $ ./client myServer 1
+    === getDefaultRuntime
+    === Runtime start
+    === Getting the server proxy ...
+    === Succeeded in getting the server proxy named MyCPPServer :
+    === set_temperature
+    === Server : method >>set_temperature called
+    === set_temperature done
+    === set_humidity
+    === Server : method >>set_humidity called
+    === set_humidity done
+    === set_fan_level
+    === Server : method >>set_fan_level called
+    === set_fan_level done
+    === test_sequence_string (string sequence in "inout" mode)
+    === test_sequence_string request :
+        [0]=first message
+        [1]=second message
+        [2]=third message
+    === Server : method >>test_sequence_string called
+        [0]=first message / [1]=second message / [2]=third message
+        infos=reply_to_first message
+    === test_sequence_string reply :
+        [0]=reply_to_first message
+        [1]=reply_to_second message
+        [2]=reply_to_third message
+    === test_sequence_long
+    === Server : method test_sequence_long called
+    === test_sequence_long done :
+        [0]=1 / [1]=2 / [2]=3
+    === test_sequence_TestStruct
+    === Server : method >>test_sequence_TestStruct called
+    === test_sequence_TestStruct done :
+        [0] member1=first message/member2=a/member3=1
+        [1] member1=second message/member2=b/member3=2
+        [2] member1=third message/member2=c/member3=3
+    === stop
+    === Service shutdown
+    === stop done
+    === Runtime stop
+</pre>
+</p>
+
+<h4><balise id = "Java">Java</balise></h4>
+<p>A set of two or three jar files are generated for each example. You can either add
+these jars to the classpath or simply add the 'classes' directory to the current classpath, as follows :
+<pre>
+//on Linux
+    $ export CLASSPATH=./classes:$OSPL_HOME/jar/ddsrmi.jar:$CLASSPATH
+
+//on Windows
+    > set CLASSPATH=classes;%OSPL_HOME%\jar\ddsrmi.jar;%CLASSPATH%
+</pre>
+<p>
+Running the server :
+<pre>
+    $ java dds.rmi.example.server myServer 1 &
+    === Getting a DDS Runtime instance
+    === Starting the DDS Runtime
+    === Creating a server
+    === Server Name=myServer , Instance ID=1
+    === Ready ...
+</pre>
+<p>
+Running the client :
+<pre>
+    $ java dds.rmi.example.client myServer 1
+    === Getting a DDS Runtime instance
+    === Starting the DDS Runtime
+    === Server Name=myServer proxyInstanceID=1
+    === Calling the interface services (methods)
+        === set_temperature
+    === set_temperature handled, temp=21,500000
+        === set_temperature done
+        === get_details
+    === get_details handled
+        === get_details done
+        === set_humidity
+    === set_humidity handled, hum=90,500000
+        === set_humidity done
+        === set_fan_level
+    === set_humidity handled, level=10
+        === set_fan_level done
+        === stop
+    === Service shutdown
+        === stop done
+    === Stopping the DDS Runtime
+
+</pre>
+
+</p>
+
+</body>
+</html>

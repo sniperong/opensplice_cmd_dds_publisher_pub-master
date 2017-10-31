@@ -1,0 +1,16 @@
+<launch>
+  <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
+    <remap from="cmd_vel" to="cmd_vel_user"/>
+  </node>
+
+  <arg name="config_topics" default="$(find cmd_dds_publisher)/yaml/twist_mux_topics.yaml"/>
+
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux" output="screen">
+    <remap from="cmd_vel_out" to="cmd_vel"/>
+    <rosparam file="$(arg config_topics)" command="load"/>
+  </node>
+
+  <node pkg="cmd_dds_publisher" type="Velocities_subscriber" name="Velocities_subscriber" output="screen"/>
+
+</launch>
+

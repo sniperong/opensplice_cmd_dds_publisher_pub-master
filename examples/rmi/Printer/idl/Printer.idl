@@ -1,0 +1,49 @@
+#include "dds_rmi.idl"
+
+module printer {
+
+enum Status {
+    P_BUSY,
+    P_IDLE,
+    P_ERR
+};
+
+struct PrinterInfos {
+    string name;
+    Status s;
+    string location;
+    boolean color;
+};
+
+enum JobStatus {
+    PRINTER_OK,
+    ERR,
+    UNAVAILABLE,
+    TOO_BIG,
+    NO_COLOR
+};
+
+struct JobReport {
+    string doc_name;
+    string printer_name;
+    JobStatus printer_result;
+    short nbPrintedPages;
+    string message;
+};
+
+typedef sequence<string> NamesList;
+
+local interface PrinterManager : DDS_RMI::Services {
+    string getClosestPrinter(in string room);
+    void getAllPrintersNames(out NamesList names);
+    void stop();
+};
+
+local interface Printer : DDS_RMI::Services {
+
+   JobReport printDoc(in string doc_name, in boolean color, out long jobId);
+   long getActiveJob();
+   PrinterInfos getPrinterInfos();
+};
+
+};

@@ -1,0 +1,127 @@
+# -*-Makefile-*-
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+
+CC            = gcc
+CXX           = g++
+LD            = $(CXX) $(CCFLAGS) $(PICFLAGS) $(GENFLAGS)
+AR            = ar
+PICFLAGS      = -fPIC
+CPPFLAGS      = $(PICFLAGS) $(GENFLAGS) -D_REENTRANT -D_POSIX_C_SOURCE=200112L -D_XOPEN_SOURCE=500 -Wall -Wno-unused-function -I"../../../../include" -I"../../../../include/sys" -I"../../../../include/dcps/C++/SACPP" -I"../../../../include/rmi" -I"." -I"../../../../examples/include" -I"../../../../examples"
+OBJEXT        = .o
+OUTPUT_OPTION = -o "$@"
+COMPILE.c     = $(CC) $(CFLAGS) $(CPPFLAGS) -c
+COMPILE.cc    = $(CXX) $(CCFLAGS) $(CPPFLAGS) -c
+LDFLAGS       = -L"." -L"../../../../lib" -Wl,-rpath,\$$ORIGIN -Wl,-rpath,\$$ORIGIN/../../../../lib
+CCC           = $(CXX)
+MAKEFILE      = Makefile.rmi_printer_client
+DEPENDENCIES  = $(MAKEFILE)
+BTARGETDIR    = ./
+BIN           = $(BTARGETDIR)client$(EXESUFFIX)$(EXEEXT)
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+EXEEXT        = 
+LIBPREFIX     = lib
+LIBSUFFIX     = 
+GENFLAGS      = -O3 -DNDEBUG
+LDLIBS        = -l"ddsrmi" -l"dcpssacpp" -l"ddskernel" -ldl $(subst lib,-l,$(sort $(basename $(notdir $(wildcard /usr/lib/librt.so /lib/librt.so))))) -lpthread
+OBJS          = .obj$(CFG)/Printer_InterfaceProxy$(OBJEXT) .obj$(CFG)/Printer_TopicsSplDcps$(OBJEXT) .obj$(CFG)/Printer_Interface$(OBJEXT) .obj$(CFG)/Printer_TopicsDcps$(OBJEXT) .obj$(CFG)/Printer_TopicsDcps_impl$(OBJEXT) .obj$(CFG)/Printer$(OBJEXT) .obj$(CFG)/Printer_Topics$(OBJEXT) .obj$(CFG)/PrinterDcps$(OBJEXT) .obj$(CFG)/PrinterDcps_impl$(OBJEXT) .obj$(CFG)/PrinterSplDcps$(OBJEXT) .obj$(CFG)/client$(OBJEXT) .obj$(CFG)/ReplyHandlers$(OBJEXT)
+SRC           = Printer_InterfaceProxy.cpp Printer_TopicsSplDcps.cpp Printer_Interface.cpp Printer_TopicsDcps.cpp Printer_TopicsDcps_impl.cpp Printer.cpp Printer_Topics.cpp PrinterDcps.cpp PrinterDcps_impl.cpp PrinterSplDcps.cpp src/client.cpp src/ReplyHandlers.cpp
+LINK.cc       = $(LD) $(LDFLAGS)
+EXPORTFLAGS   = 
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(BIN)
+
+$(BIN): $(OBJS)
+	@$(TESTDIRSTART) "$(BTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(BTARGETDIR)"
+	$(LINK.cc) $(OBJS) $(LDLIBS) $(OUTPUT_OPTION)
+
+GENERATED_DIRTY = Printer_InterfaceProxy.h PrinterSplDcps.h Printer_InterfaceProxy.cpp Printer_TopicsSplDcps.cpp Printer_Interface.cpp Printer_TopicsDcps.cpp Printer_TopicsDcps_impl.cpp Printer.cpp Printer_Topics.cpp PrinterDcps.cpp PrinterDcps_impl.cpp PrinterSplDcps.cpp Printer_Topics.idl ccpp_Printer.h Printer_Interface.h Printer_Topics.h Printer_TopicsSplDcps.h Printer_TopicsDcps_impl.h PrinterDcps_impl.h ccpp_Printer_Topics.h PrinterDcps.h Printer.h Printer_TopicsDcps.h
+
+export DYLD_LIBRARY_PATH := $(DYLD_LIBRARY_PATH):../../../../bin:../../../../lib
+export LD_LIBRARY_PATH   := $(LD_LIBRARY_PATH):../../../../bin:../../../../lib
+export SHLIB_PATH        := $(SHLIB_PATH):../../../../bin:../../../../lib
+export LIBPATH           := $(LIBPATH):../../../../bin:../../../../lib
+export PATH              := $(PATH):../../../../bin:../../../../lib
+
+.NOTPARALLEL:
+Printer_InterfaceProxy.h PrinterSplDcps.h Printer_InterfaceProxy.cpp Printer_TopicsSplDcps.cpp Printer_Interface.cpp Printer_TopicsDcps.cpp Printer_TopicsDcps_impl.cpp Printer.cpp Printer_Topics.cpp PrinterDcps.cpp PrinterDcps_impl.cpp PrinterSplDcps.cpp Printer_Topics.idl ccpp_Printer.h Printer_Interface.h Printer_Topics.h Printer_TopicsSplDcps.h Printer_TopicsDcps_impl.h PrinterDcps_impl.h ccpp_Printer_Topics.h PrinterDcps.h Printer.h Printer_TopicsDcps.h: ../idl/Printer.idl
+	"../../../../bin/rmipp" -l cpp ../idl/Printer.idl
+
+.PRECIOUS: $(GENERATED_DIRTY)
+$(OBJS): $(GENERATED_DIRTY)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+.obj$(CFG)/Printer_InterfaceProxy$(OBJEXT): Printer_InterfaceProxy.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer_InterfaceProxy.cpp
+
+.obj$(CFG)/Printer_TopicsSplDcps$(OBJEXT): Printer_TopicsSplDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer_TopicsSplDcps.cpp
+
+.obj$(CFG)/Printer_Interface$(OBJEXT): Printer_Interface.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer_Interface.cpp
+
+.obj$(CFG)/Printer_TopicsDcps$(OBJEXT): Printer_TopicsDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer_TopicsDcps.cpp
+
+.obj$(CFG)/Printer_TopicsDcps_impl$(OBJEXT): Printer_TopicsDcps_impl.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer_TopicsDcps_impl.cpp
+
+.obj$(CFG)/Printer$(OBJEXT): Printer.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer.cpp
+
+.obj$(CFG)/Printer_Topics$(OBJEXT): Printer_Topics.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Printer_Topics.cpp
+
+.obj$(CFG)/PrinterDcps$(OBJEXT): PrinterDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) PrinterDcps.cpp
+
+.obj$(CFG)/PrinterDcps_impl$(OBJEXT): PrinterDcps_impl.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) PrinterDcps_impl.cpp
+
+.obj$(CFG)/PrinterSplDcps$(OBJEXT): PrinterSplDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) PrinterSplDcps.cpp
+
+.obj$(CFG)/client$(OBJEXT): src/client.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/client.cpp
+
+.obj$(CFG)/ReplyHandlers$(OBJEXT): src/ReplyHandlers.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/ReplyHandlers.cpp
+
+clean:
+	-$(RM) $(OBJS)
+
+realclean: clean
+	-$(RM) $(BIN)
+	-$(RM) $(GENERATED_DIRTY)
+	-$(RM) .obj$(CFG)/
+
+check-syntax:
+	$(COMPILE.cc) $(EXPORTFLAGS) $(CHK_SOURCES)
+

@@ -1,0 +1,63 @@
+#include "dds_rmi.idl"
+
+module ClientServer {
+
+ enum enumere_1 
+   {
+      undefined_0,
+	  enum_11,
+      enum_12
+   };
+   
+   enum enumere_2 
+   {
+      undefined_1,
+      enum_21,
+      enum_22
+  };
+
+struct SystemTime {
+  long wYear;
+  long wMonth;
+  long wDayOfWeek;
+  long wDay;
+  long wHour;
+  long wMinute;
+  long wSecond;
+  long wMilliseconds;
+};
+
+struct TestStruct {
+   string struct_member1;
+   char struct_member2;
+   long struct_member3;
+};
+   typedef sequence<string> string_seq;
+
+   typedef sequence<long> long_seq;
+
+   typedef sequence<TestStruct> TestStruct_seq;
+
+ local interface myServer : ::DDS_RMI::Services {
+     void set_temperature(in float temp);
+     
+     void set_humidity(in float hum);
+     
+     void set_fan_level(in short level);
+
+     void get_details (inout string infos) ;
+
+     void test_sequence_string(inout string_seq test);
+
+     void test_sequence_long(in long_seq test);
+
+     void test_sequence_TestStruct(in TestStruct_seq test);
+
+     void test_inout_string(in string in_string, inout string inout_string, out string out_string);
+
+     boolean raise_temp_to (in float temp, inout long hum, out short level);
+     short start();
+     short stop();
+ };
+
+};

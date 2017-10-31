@@ -1,0 +1,70 @@
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+JAVAC         = $(SPLICE_JAVAC)
+JAR           = jar
+JAVACFLAGS    = $(GENFLAGS) -sourcepath src
+CLASSEXT      = .class
+CLASSDIR      = classes/
+OUTPUT_OPTION = -d $(CLASSDIR)
+COMPILE.java  = $(JAVAC) $(JAVACFLAGS) -cp $(JAVACCPATH) 
+JAVACCPATH    = "$(SPLICE_EXTRA_CP):rmi_saj_clientserver_types.jar:$(CLASSDIR):../../../../jar/ddsrmi.jar:../../../../jar/dcpssaj.jar:"
+MAKEFILE      = Makefile.rmi_saj_clientserver_server
+DEPENDENCIES  = $(MAKEFILE)
+LTARGETDIR    = ./
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+GENFLAGS      =  
+CLASSES       =  $(CLASSDIR)dds/rmi/example/myServerImpl$(CLASSEXT) $(CLASSDIR)dds/rmi/example/server$(CLASSEXT)
+JARCLASSES    =  dds/rmi/example/myServerImpl$(CLASSEXT) dds/rmi/example/server$(CLASSEXT)
+JAREXT        = .jar
+MAINCLASS     = dds.rmi.example.server
+JARFILE       = $(LTARGETDIR)$(LIBPREFIX)rmi_saj_clientserver_server$(LIBSUFFIX)$(JAREXT)
+MANIFEST      = rmi_saj_clientserver_server.manifest
+JARFLAGS      = cvfm
+SRC           = src/myServerImpl.java src/server.java
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(JARFILE)
+
+$(JARFILE): $(CLASSES) $(CLASSDIR)$(MANIFEST)
+	@$(TESTDIRSTART) "$(LTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(LTARGETDIR)"
+	cd $(CLASSDIR) && $(JAR) $(JARFLAGS) $(JARFILE) $(MANIFEST) $(JARCLASSES) 
+	$(MV) $(CLASSDIR)/$(JARFILE) .
+
+$(CLASSDIR)$(MANIFEST):
+	echo Class-Path: rmi_saj_clientserver_types.jar ../../../../jar/ddsrmi.jar ../../../../jar/dcpssaj.jar > $(CLASSDIR)$(MANIFEST)
+	echo Main-Class: $(MAINCLASS) >> $(CLASSDIR)$(MANIFEST)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+$(CLASSDIR)dds/rmi/example/myServerImpl$(CLASSEXT): src/myServerImpl.java
+	@$(TESTDIRSTART) "$(CLASSDIR)dds/rmi/example/" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)dds/rmi/example/"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/myServerImpl.java
+
+$(CLASSDIR)dds/rmi/example/server$(CLASSEXT): src/server.java
+	@$(TESTDIRSTART) "$(CLASSDIR)dds/rmi/example/" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)dds/rmi/example/"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/server.java
+
+clean:
+	-$(RM) $(CLASSES)
+
+realclean: clean
+	-$(RM) $(BIN)
+	-$(RM) $(CLASSDIR)$(MANIFEST)
+	-$(RM) dds/rmi/example/
+
+check-syntax:
+	$(COMPILE.java) $(EXPORTFLAGS) $(CHK_SOURCES)
+

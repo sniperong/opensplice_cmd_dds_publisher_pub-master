@@ -1,0 +1,79 @@
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+JAVAC         = $(SPLICE_JAVAC)
+JAR           = jar
+JAVACFLAGS    = $(GENFLAGS)
+CLASSEXT      = .class
+CLASSDIR      = classes/
+OUTPUT_OPTION = -d $(CLASSDIR)
+COMPILE.java  = $(JAVAC) $(JAVACFLAGS) -cp $(JAVACCPATH) 
+JAVACCPATH    = "$(SPLICE_EXTRA_CP):$(CLASSDIR):../../../../jar/ddsrmi.jar:../../../../jar/dcpssaj.jar:"
+MAKEFILE      = Makefile.rmi_saj_helloworld_types
+DEPENDENCIES  = $(MAKEFILE)
+LTARGETDIR    = ./
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+GENFLAGS      =  
+CLASSES       =  $(CLASSDIR)DDS_RMI/HelloWorld/HelloService/*$(CLASSEXT) $(CLASSDIR)DDS_RMI/HelloWorld/*$(CLASSEXT)
+JARCLASSES    =  DDS_RMI/HelloWorld/HelloService/*$(CLASSEXT) DDS_RMI/HelloWorld/*$(CLASSEXT)
+JAREXT        = .jar
+JARFILE       = $(LTARGETDIR)$(LIBPREFIX)rmi_saj_helloworld_types$(LIBSUFFIX)$(JAREXT)
+MANIFEST      = rmi_saj_helloworld_types.manifest
+JARFLAGS      = cvfm
+SRC           = DDS_RMI/HelloWorld/HelloService/*.java DDS_RMI/HelloWorld/*.java
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(JARFILE)
+
+$(JARFILE): $(CLASSES) $(CLASSDIR)$(MANIFEST)
+	@$(TESTDIRSTART) "$(LTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(LTARGETDIR)"
+	cd $(CLASSDIR) && $(JAR) $(JARFLAGS) $(JARFILE) $(MANIFEST) $(JARCLASSES) 
+	$(MV) $(CLASSDIR)/$(JARFILE) .
+
+$(CLASSDIR)$(MANIFEST):
+	echo Class-Path: ../../../../jar/ddsrmi.jar ../../../../jar/dcpssaj.jar > $(CLASSDIR)$(MANIFEST)
+
+GENERATED_DIRTY = DDS_RMI/HelloWorld/HelloService DDS_RMI/HelloWorld HelloWorld_Topics.idl
+
+
+.NOTPARALLEL:
+DDS_RMI/HelloWorld/HelloService DDS_RMI/HelloWorld HelloWorld_Topics.idl: ../idl/HelloWorld.idl
+	"../../../../bin/rmipp" -I "../../../../etc/idl" -l java ../idl/HelloWorld.idl
+
+.PRECIOUS: $(GENERATED_DIRTY)
+$(CLASSES): $(GENERATED_DIRTY)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+$(CLASSDIR)DDS_RMI/HelloWorld/HelloService/*$(CLASSEXT): DDS_RMI/HelloWorld/HelloService
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/HelloWorld/HelloService/*.java
+
+$(CLASSDIR)DDS_RMI/HelloWorld/*$(CLASSEXT): DDS_RMI/HelloWorld
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/HelloWorld/*.java
+
+clean:
+	-$(RM) $(CLASSES)
+
+realclean: clean
+	-$(RM) $(SHLIB) $(JARFILE)
+	-$(RM) $(GENERATED_DIRTY)
+	-$(RM) $(CLASSDIR)$(MANIFEST)
+	-rm -rf DDS_RMI
+
+check-syntax:
+	$(COMPILE.java) $(EXPORTFLAGS) $(CHK_SOURCES)
+

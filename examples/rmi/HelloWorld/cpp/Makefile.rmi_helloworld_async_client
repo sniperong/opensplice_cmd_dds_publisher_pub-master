@@ -1,0 +1,123 @@
+# -*-Makefile-*-
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+
+CC            = gcc
+CXX           = g++
+LD            = $(CXX) $(CCFLAGS) $(PICFLAGS) $(GENFLAGS)
+AR            = ar
+PICFLAGS      = -fPIC
+CPPFLAGS      = $(PICFLAGS) $(GENFLAGS) -D_REENTRANT -D_POSIX_C_SOURCE=200112L -D_XOPEN_SOURCE=500 -Wall -Wno-unused-function -I"../../../../include" -I"../../../../include/sys" -I"../../../../include/dcps/C++/SACPP" -I"../../../../include/rmi" -I"." -I"../../../../examples/include" -I"../../../../examples"
+OBJEXT        = .o
+OUTPUT_OPTION = -o "$@"
+COMPILE.c     = $(CC) $(CFLAGS) $(CPPFLAGS) -c
+COMPILE.cc    = $(CXX) $(CCFLAGS) $(CPPFLAGS) -c
+LDFLAGS       = -L"." -L"../../../../lib" -Wl,-rpath,\$$ORIGIN -Wl,-rpath,\$$ORIGIN/../../../../lib
+CCC           = $(CXX)
+MAKEFILE      = Makefile.rmi_helloworld_async_client
+DEPENDENCIES  = $(MAKEFILE)
+BTARGETDIR    = ./
+BIN           = $(BTARGETDIR)async_client$(EXESUFFIX)$(EXEEXT)
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+EXEEXT        = 
+LIBPREFIX     = lib
+LIBSUFFIX     = 
+GENFLAGS      = -O3 -DNDEBUG
+LDLIBS        = -l"ddsrmi" -l"dcpssacpp" -l"ddskernel" -ldl $(subst lib,-l,$(sort $(basename $(notdir $(wildcard /usr/lib/librt.so /lib/librt.so))))) -lpthread
+OBJS          = .obj$(CFG)/HelloWorld_InterfaceProxy$(OBJEXT) .obj$(CFG)/HelloWorld_TopicsDcps$(OBJEXT) .obj$(CFG)/HelloWorld$(OBJEXT) .obj$(CFG)/HelloWorld_Interface$(OBJEXT) .obj$(CFG)/HelloWorld_TopicsSplDcps$(OBJEXT) .obj$(CFG)/HelloWorld_TopicsDcps_impl$(OBJEXT) .obj$(CFG)/HelloWorldSplDcps$(OBJEXT) .obj$(CFG)/HelloWorld_Topics$(OBJEXT) .obj$(CFG)/HelloWorldDcps$(OBJEXT) .obj$(CFG)/HelloWorldDcps_impl$(OBJEXT) .obj$(CFG)/async_client$(OBJEXT)
+SRC           = HelloWorld_InterfaceProxy.cpp HelloWorld_TopicsDcps.cpp HelloWorld.cpp HelloWorld_Interface.cpp HelloWorld_TopicsSplDcps.cpp HelloWorld_TopicsDcps_impl.cpp HelloWorldSplDcps.cpp HelloWorld_Topics.cpp HelloWorldDcps.cpp HelloWorldDcps_impl.cpp src/async_client.cpp
+LINK.cc       = $(LD) $(LDFLAGS)
+EXPORTFLAGS   = 
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(BIN)
+
+$(BIN): $(OBJS)
+	@$(TESTDIRSTART) "$(BTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(BTARGETDIR)"
+	$(LINK.cc) $(OBJS) $(LDLIBS) $(OUTPUT_OPTION)
+
+GENERATED_DIRTY = HelloWorld_InterfaceProxy.h HelloWorld_TopicsDcps_impl.h HelloWorld_InterfaceProxy.cpp HelloWorld_TopicsDcps.cpp HelloWorld.cpp HelloWorld_Interface.cpp HelloWorld_TopicsSplDcps.cpp HelloWorld_TopicsDcps_impl.cpp HelloWorldSplDcps.cpp HelloWorld_Topics.cpp HelloWorldDcps.cpp HelloWorldDcps_impl.cpp HelloWorld_Topics.idl HelloWorld_TopicsSplDcps.h HelloWorld_TopicsDcps.h HelloWorldDcps_impl.h ccpp_HelloWorld_Topics.h HelloWorld_Topics.h ccpp_HelloWorld.h HelloWorldDcps.h HelloWorld_Interface.h HelloWorld.h HelloWorldSplDcps.h
+
+export DYLD_LIBRARY_PATH := $(DYLD_LIBRARY_PATH):../../../../bin:../../../../lib
+export LD_LIBRARY_PATH   := $(LD_LIBRARY_PATH):../../../../bin:../../../../lib
+export SHLIB_PATH        := $(SHLIB_PATH):../../../../bin:../../../../lib
+export LIBPATH           := $(LIBPATH):../../../../bin:../../../../lib
+export PATH              := $(PATH):../../../../bin:../../../../lib
+
+.NOTPARALLEL:
+HelloWorld_InterfaceProxy.h HelloWorld_TopicsDcps_impl.h HelloWorld_InterfaceProxy.cpp HelloWorld_TopicsDcps.cpp HelloWorld.cpp HelloWorld_Interface.cpp HelloWorld_TopicsSplDcps.cpp HelloWorld_TopicsDcps_impl.cpp HelloWorldSplDcps.cpp HelloWorld_Topics.cpp HelloWorldDcps.cpp HelloWorldDcps_impl.cpp HelloWorld_Topics.idl HelloWorld_TopicsSplDcps.h HelloWorld_TopicsDcps.h HelloWorldDcps_impl.h ccpp_HelloWorld_Topics.h HelloWorld_Topics.h ccpp_HelloWorld.h HelloWorldDcps.h HelloWorld_Interface.h HelloWorld.h HelloWorldSplDcps.h: ../idl/HelloWorld.idl
+	"../../../../bin/rmipp" -l cpp ../idl/HelloWorld.idl
+
+.PRECIOUS: $(GENERATED_DIRTY)
+$(OBJS): $(GENERATED_DIRTY)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+.obj$(CFG)/HelloWorld_InterfaceProxy$(OBJEXT): HelloWorld_InterfaceProxy.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld_InterfaceProxy.cpp
+
+.obj$(CFG)/HelloWorld_TopicsDcps$(OBJEXT): HelloWorld_TopicsDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld_TopicsDcps.cpp
+
+.obj$(CFG)/HelloWorld$(OBJEXT): HelloWorld.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld.cpp
+
+.obj$(CFG)/HelloWorld_Interface$(OBJEXT): HelloWorld_Interface.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld_Interface.cpp
+
+.obj$(CFG)/HelloWorld_TopicsSplDcps$(OBJEXT): HelloWorld_TopicsSplDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld_TopicsSplDcps.cpp
+
+.obj$(CFG)/HelloWorld_TopicsDcps_impl$(OBJEXT): HelloWorld_TopicsDcps_impl.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld_TopicsDcps_impl.cpp
+
+.obj$(CFG)/HelloWorldSplDcps$(OBJEXT): HelloWorldSplDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorldSplDcps.cpp
+
+.obj$(CFG)/HelloWorld_Topics$(OBJEXT): HelloWorld_Topics.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorld_Topics.cpp
+
+.obj$(CFG)/HelloWorldDcps$(OBJEXT): HelloWorldDcps.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorldDcps.cpp
+
+.obj$(CFG)/HelloWorldDcps_impl$(OBJEXT): HelloWorldDcps_impl.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) HelloWorldDcps_impl.cpp
+
+.obj$(CFG)/async_client$(OBJEXT): src/async_client.cpp
+	@$(TESTDIRSTART) ".obj$(CFG)/" $(TESTDIREND) $(MKDIR) ".obj$(CFG)/"
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) src/async_client.cpp
+
+clean:
+	-$(RM) $(OBJS)
+
+realclean: clean
+	-$(RM) $(BIN)
+	-$(RM) $(GENERATED_DIRTY)
+	-$(RM) .obj$(CFG)/
+
+check-syntax:
+	$(COMPILE.cc) $(EXPORTFLAGS) $(CHK_SOURCES)
+

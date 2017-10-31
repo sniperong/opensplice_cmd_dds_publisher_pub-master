@@ -1,0 +1,38 @@
+========================================================================================
+Context     : dds:domain::DomainParticipant::DomainParticipant
+Date        : Tue Oct 24 18:03:05 SGT 2017
+Node        : scc-vincent
+Process     : publisher <9307>
+Thread      : main thread 7f2b84aae780
+Internals   : DomainParticipantDelegate.cpp/88/6.8.2/e436376/7d15937/-1
+----------------------------------------------------------------------------------------
+Report      : Error: Failed to create DomainParticipant
+Internals   : org::opensplice::domain::DomainParticipantDelegate::DomainParticipantDelegate/DomainParticipantDelegate.cpp/88/1/1508839385.315023707
+----------------------------------------------------------------------------------------
+Report      : Unable to connect to domain id = <ANY>.
+              The most common causes of this error are an incorrect configuration file or
+              that OpenSpliceDDS is not running (when using shared memory mode).
+Internals   : u_participantNew/u_participant.c/232/773/1508839385.315038532
+----------------------------------------------------------------------------------------
+Report      : Cannot connect to domainId (0) and domainName (The default Domain).
+              Please make sure to start OpenSplice before creating a DomainParticipant.
+Internals   : user::u_domain::u_domainOpen/u_domain.c/1503/773/1508839385.315049098
+========================================================================================
+Context     : dds:domain::DomainParticipant::DomainParticipant
+Date        : Tue Oct 24 18:03:06 SGT 2017
+Node        : scc-vincent
+Process     : publisher <9310>
+Thread      : main thread 7fbe63c3a780
+Internals   : DomainParticipantDelegate.cpp/88/6.8.2/e436376/7d15937/-1
+----------------------------------------------------------------------------------------
+Report      : Error: Failed to create DomainParticipant
+Internals   : org::opensplice::domain::DomainParticipantDelegate::DomainParticipantDelegate/DomainParticipantDelegate.cpp/88/1/1508839386.234286256
+----------------------------------------------------------------------------------------
+Report      : Unable to connect to domain id = <ANY>.
+              The most common causes of this error are an incorrect configuration file or
+              that OpenSpliceDDS is not running (when using shared memory mode).
+Internals   : u_participantNew/u_participant.c/232/773/1508839386.234299668
+----------------------------------------------------------------------------------------
+Report      : Cannot connect to domainId (0) and domainName (The default Domain).
+              Please make sure to start OpenSplice before creating a DomainParticipant.
+Internals   : user::u_domain::u_domainOpen/u_domain.c/1503/773/1508839386.234309970

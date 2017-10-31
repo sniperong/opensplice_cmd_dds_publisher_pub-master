@@ -1,0 +1,78 @@
+// -*- MPC -*-
+// $Id:$
+
+project (rmi_saj*types) : rmi_saj_typesupport, java_example, java_ospl_ddsrmi {
+  specific {
+        genflags =
+        compile_flags =
+        targetoutdir =
+  }
+  staticname = *
+  postclean = <%rmdir%> DDS_RMI
+
+  RMITypes_Files {
+      ../idl/HelloWorld.idl >> DDS_RMI/HelloWorld/HelloService/*.java \
+                               DDS_RMI/HelloWorld/*.java
+  }
+}
+
+project (rmi_saj*client) : java_ospl_ddsrmi, java_example {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.helloworld.client
+    specific {
+        obj_dir_flat = 1
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>helloworld<%slash%>
+    }
+    specific (javabat) {
+        extra_ar_objs = -C classes/ .
+    }
+
+    Source_Files {
+        src/dds/rmi/example/helloworld/client.java
+    }
+}
+
+project (rmi_saj*async_client) : java_ospl_ddsrmi, java_example, helloworld_async_client_base {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.helloworld.async_client
+    specific {
+        obj_dir_flat = 1
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>helloworld<%slash%>
+    }
+    Source_Files {
+        src/dds/rmi/example/helloworld/async_client.java
+    }
+
+    // This is what has to happen when you don't write public top level classes :(
+    specific (javabat) {
+        extra_jar_classes = dds\rmi\example\helloworld\async_client$MyGreetReplyHandler.class
+    }
+    postclean = <%rm%> classes<%slash%>dds<%slash%>rmi<%slash%>example<%slash%>helloworld<%slash%>async_client*
+    // :( Ends
+}
+
+project (rmi_saj*server) : java_ospl_ddsrmi, java_example {
+    after += rmi_saj*types
+    libs += rmi_saj*types.jar
+    exename =  dds.rmi.example.helloworld.server
+    specific {
+        obj_dir_flat = 1
+        obj_dir = dds<%slash%>rmi<%slash%>example<%slash%>helloworld<%slash%>
+    }
+    Source_Files {
+        src/dds/rmi/example/helloworld/server.java
+    }
+
+    // This is what has to happen when you don't write public top level classes :(
+    verbatim (ospljavamake, macros) {
+        CLASSES       += classes/dds/rmi/example/helloworld/HelloServiceImpl.class
+        JARCLASSES    += dds/rmi/example/helloworld/HelloServiceImpl.class
+    }
+    specific (javabat) {
+        extra_jar_classes = dds\rmi\example\helloworld\HelloServiceImpl.class
+        postclean = <%rm%> classes<%slash%>dds<%slash%>rmi<%slash%>example<%slash%>helloworld<%slash%>HelloServiceImpl.class
+    }
+    // :( Ends
+}

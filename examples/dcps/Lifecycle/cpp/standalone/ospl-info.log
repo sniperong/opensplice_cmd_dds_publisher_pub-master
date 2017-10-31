@@ -1,0 +1,292 @@
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++
+              ++ spliced EVALUATION VERSION ++
+              ++++++++++++++++++++++++++++++++
+
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : spliced 7f8852469700
+Internals   : 6.8.2/e436376/7d15937/The OpenSplice domain service/spliced.c/1500/0/1508749957.846672908/-1
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++
+              ++ spliced EVALUATION VERSION ++
+              ++++++++++++++++++++++++++++++++
+
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : spliced 7f3c7ff44700
+Internals   : 6.8.2/e436376/7d15937/The OpenSplice domain service/spliced.c/1500/0/1508749957.864509710/-1
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 0 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+              SystemId             : 226048339 from [1,2147483647]
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : spliced 7f8852469700
+Internals   : 6.8.2/e436376/7d15937/The OpenSplice domain service/u_domain.c/737/0/1508749957.872583916/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : spliced 7f8852469700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/300/0/1508749957.873456220/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : +++++++++++++++++++++++++++++++++++
+              ++ durability EVALUATION VERSION ++
+              +++++++++++++++++++++++++++++++++++
+
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : durability 7f884ad50700
+Internals   : 6.8.2/e436376/7d15937/d_durability/d_durability.c/1450/0/1508749957.879968944/-1
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++
+              ++ ddsi2 EVALUATION VERSION ++
+              ++++++++++++++++++++++++++++++
+
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : ddsi2 7f884a2db700
+Internals   : 6.8.2/e436376/7d15937/q_main/q_main.c/2555/0/1508749957.880657592/-1
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : SOAP service is reachable via port 35524
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : cmsoap 7f884b187700
+Internals   : 6.8.2/e436376/7d15937/CM SOAP Service/cms_service.c/445/0/1508749957.880915153/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'cmsoap' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : cmsoap 7f884b187700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/300/0/1508749957.882333992/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : ddsi2 7f884a2db700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/300/0/1508749957.888444850/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 0 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+              SystemId             : 52525919 from [1,2147483647]
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : spliced 7f3c7ff44700
+Internals   : 6.8.2/e436376/7d15937/The OpenSplice domain service/u_domain.c/737/0/1508749957.890370230/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : spliced 7f3c7ff44700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/300/0/1508749957.890926748/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : +++++++++++++++++++++++++++++++++++
+              ++ durability EVALUATION VERSION ++
+              +++++++++++++++++++++++++++++++++++
+
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : durability 7f3c7c883700
+Internals   : 6.8.2/e436376/7d15937/d_durability/d_durability.c/1450/0/1508749957.895442715/-1
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++
+              ++ ddsi2 EVALUATION VERSION ++
+              ++++++++++++++++++++++++++++++
+
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : ddsi2 7f3c7c1c1700
+Internals   : 6.8.2/e436376/7d15937/q_main/q_main.c/2555/0/1508749957.895564115/-1
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : SOAP service is reachable via port 44206
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : cmsoap 7f3c7ccba700
+Internals   : 6.8.2/e436376/7d15937/CM SOAP Service/cms_service.c/445/0/1508749957.896077701/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'cmsoap' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : cmsoap 7f3c7ccba700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/300/0/1508749957.896927375/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:37 SGT 2017
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : ddsi2 7f3c7c1c1700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/300/0/1508749957.903091743/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:38 SGT 2017
+Description : The durability service can be identified by ID: 226048339
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : durability 7f884ad50700
+Internals   : 6.8.2/e436376/7d15937/DurabilityService/d_durability.c/673/0/1508749958.199745794/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:38 SGT 2017
+Description : The durability service can be identified by ID: 52525919
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : durability 7f3c7c883700
+Internals   : 6.8.2/e436376/7d15937/DurabilityService/d_durability.c/673/0/1508749958.214842944/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:41 SGT 2017
+Description : ================================================
+              == The service 'ddsi2' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : ddsi2 7f3c7c1c1700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749961.280448211/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:41 SGT 2017
+Description : ================================================
+              == The service 'ddsi2' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : ddsi2 7f884a2db700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749961.561725005/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:41 SGT 2017
+Description : not accepting requests.
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : cmsoap 7f884b187700
+Internals   : 6.8.2/e436376/7d15937/CM SOAP Service/cmsoap.c/109/0/1508749961.886633921/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:41 SGT 2017
+Description : ================================================
+              == The service 'cmsoap' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : cmsoap 7f884b187700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749961.886811318/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:41 SGT 2017
+Description : not accepting requests.
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : cmsoap 7f3c7ccba700
+Internals   : 6.8.2/e436376/7d15937/CM SOAP Service/cmsoap.c/109/0/1508749961.900639903/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:41 SGT 2017
+Description : ================================================
+              == The service 'cmsoap' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : cmsoap 7f3c7ccba700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749961.900828659/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:43 SGT 2017
+Description : ================================================
+              == The service 'durability' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : durability 7f884ad50700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749963.394516466/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:43 SGT 2017
+Description : ================================================
+              == The service 'durability' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : durability 7f3c7c883700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749963.409960650/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:43 SGT 2017
+Description : ================================================
+              == The service 'splicedaemon' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_pub <7020>
+Thread      : spliced 7f8852469700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749963.456293307/0
+========================================================================================
+Report      : INFO
+Date        : Mon Oct 23 17:12:43 SGT 2017
+Description : ================================================
+              == The service 'splicedaemon' has now terminated. 
+              ================================================
+Node        : scc-vincent
+Process     : sacpp_lifecycle_sub <7024>
+Thread      : spliced 7f3c7ff44700
+Internals   : 6.8.2/e436376/7d15937/v_serviceChangeState/v_service.c/307/0/1508749963.475145145/0

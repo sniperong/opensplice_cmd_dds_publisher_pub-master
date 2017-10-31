@@ -1,0 +1,28 @@
+// -*- MPC -*-
+// $Id:$
+
+project (dbmsconnect*messaage_board) : vc_warnings, c_or_cplusplus_example {
+    avoids += no_dbms_connect_example
+    Source_Files {
+        MessageBoard.cpp
+    }
+
+    specific (! prop:microsoft) {
+        includes += $(ODBCHOME)/include
+        libpaths += $(ODBCHOME)/lib
+        libs += odbc
+    }
+}
+
+project (dbmsconnect*chatter) : vc_warnings, c_or_cplusplus_example {
+    avoids += no_dbms_connect_example
+    Source_Files {
+        Chatter.cpp
+    }
+
+    specific (! prop:microsoft) {
+        includes += $(ODBCHOME)/include
+        libpaths += $(ODBCHOME)/lib
+        libs += odbc
+    }
+}

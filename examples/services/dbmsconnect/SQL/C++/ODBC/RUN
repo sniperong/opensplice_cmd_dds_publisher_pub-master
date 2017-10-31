@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+if test ! -n "$ODBCINST"
+then
+    echo "Setup the ODBC environment first"
+    exit
+fi
+
+if [ ! -x $OSPL_HOME/examples/dcps/Tutorial/cpp/standalone/Chatter ]
+then
+    echo "Build the OpenSplice standalone C++ Tutorial first"
+    exit
+fi
+
+if [ ! -x $OSPL_HOME/examples/dcps/Tutorial/cpp/standalone/MessageBoard ]
+then
+    echo "Build the OpenSplice standalone C++ Tutorial first"
+    exit
+fi
+
+if [ ! -x $OSPL_HOME/examples/services/dbmsconnect/SQL/C++/ODBC/MessageBoard ]
+then
+    echo "Build the OpenSplice DBMSConnect examples first"
+    exit
+fi
+
+if [ ! -x $OSPL_HOME/examples/services/dbmsconnect/SQL/C++/ODBC/Chatter ]
+then
+    echo "Build the OpenSplice DBMSConnect examples first"
+    exit
+fi
+
+XTERM=`which xterm`
+if [ "$XTERM" != "" ]
+then
+    XTERM="xterm -e"
+    OUTPUT="1"
+    OUTPUT_ODBC="1"
+else
+    OUTPUT="messageBoard.log"
+    OUTPUT_ODBC="odbc_messageBoard.log"
+    echo "Please check $OUTPUT and $OUTPUT_ODBC for output"
+fi
+
+echo Set dsn
+MY_DSN=`hostname`
+
+echo Start Dds MessageBoard
+$XTERM "$OSPL_HOME/examples/dcps/Tutorial/cpp/standalone/MessageBoard" > $OUTPUT 2>&1 &
+
+echo Start Sql MessageBoard
+$XTERM "$OSPL_HOME/examples/services/dbmsconnect/SQL/C++/ODBC/MessageBoard" ${MY_DSN} SYSTEM SYSTEM > $OUTPUT_ODBC 2>&1 &
+sleep 4
+
+echo Start SqlToDdsOnly Chatter  
+"$OSPL_HOME/examples/services/dbmsconnect/SQL/C++/ODBC/Chatter" ${MY_DSN} SYSTEM SYSTEM 1 SqlToDdsOnly
+
+echo Start SqlToDdsAndDbms Chatter  
+"$OSPL_HOME/examples/services/dbmsconnect/SQL/C++/ODBC/Chatter" ${MY_DSN} SYSTEM SYSTEM 2 SqlToDdsAndDbms
+
+echo Start DdsToDdsOnly Chatter
+"$OSPL_HOME/examples/dcps/Tutorial/cpp/standalone/Chatter" 1 DdsToDdsOnly
+
+echo Start DdsToDdsAndDbms Chatter
+"$OSPL_HOME/examples/dcps/Tutorial/cpp/standalone/Chatter" 2 DdsToDdsAndDbms
+
+sleep 4
+echo Start SQL Terminate Chatter
+"$OSPL_HOME/examples/services/dbmsconnect/SQL/C++/ODBC/Chatter" ${MY_DSN} SYSTEM SYSTEM -1 terminate
+sleep 2
+

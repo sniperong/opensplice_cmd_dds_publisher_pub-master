@@ -1,0 +1,83 @@
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+JAVAC         = $(SPLICE_JAVAC)
+JAR           = jar
+JAVACFLAGS    = $(GENFLAGS)
+CLASSEXT      = .class
+CLASSDIR      = classes/
+OUTPUT_OPTION = -d $(CLASSDIR)
+COMPILE.java  = $(JAVAC) $(JAVACFLAGS) -cp $(JAVACCPATH) 
+JAVACCPATH    = "$(SPLICE_EXTRA_CP):$(CLASSDIR):../../../../jar/ddsrmi.jar:../../../../jar/dcpssaj.jar:"
+MAKEFILE      = Makefile.rmi_saj_clientserver_types
+DEPENDENCIES  = $(MAKEFILE)
+LTARGETDIR    = ./
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+GENFLAGS      =  
+CLASSES       =  $(CLASSDIR)DDS_RMI/ClientServer/myServer/*$(CLASSEXT) $(CLASSDIR)ClientServer/*$(CLASSEXT) $(CLASSDIR)DDS_RMI/ClientServer/*$(CLASSEXT)
+JARCLASSES    =  DDS_RMI/ClientServer/myServer/*$(CLASSEXT) ClientServer/*$(CLASSEXT) DDS_RMI/ClientServer/*$(CLASSEXT)
+JAREXT        = .jar
+JARFILE       = $(LTARGETDIR)$(LIBPREFIX)rmi_saj_clientserver_types$(LIBSUFFIX)$(JAREXT)
+MANIFEST      = rmi_saj_clientserver_types.manifest
+JARFLAGS      = cvfm
+SRC           = DDS_RMI/ClientServer/myServer/*.java ClientServer/*.java DDS_RMI/ClientServer/*.java
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(JARFILE)
+
+$(JARFILE): $(CLASSES) $(CLASSDIR)$(MANIFEST)
+	@$(TESTDIRSTART) "$(LTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(LTARGETDIR)"
+	cd $(CLASSDIR) && $(JAR) $(JARFLAGS) $(JARFILE) $(MANIFEST) $(JARCLASSES) 
+	$(MV) $(CLASSDIR)/$(JARFILE) .
+
+$(CLASSDIR)$(MANIFEST):
+	echo Class-Path: ../../../../jar/ddsrmi.jar ../../../../jar/dcpssaj.jar > $(CLASSDIR)$(MANIFEST)
+
+GENERATED_DIRTY = DDS_RMI/ClientServer/myServer ClientServer DDS_RMI/ClientServer ClientServer_Topics.idl
+
+
+.NOTPARALLEL:
+DDS_RMI/ClientServer/myServer ClientServer DDS_RMI/ClientServer ClientServer_Topics.idl: ../idl/ClientServer.idl
+	"../../../../bin/rmipp" -I "../../../../etc/idl" -l java ../idl/ClientServer.idl
+
+.PRECIOUS: $(GENERATED_DIRTY)
+$(CLASSES): $(GENERATED_DIRTY)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+$(CLASSDIR)DDS_RMI/ClientServer/myServer/*$(CLASSEXT): DDS_RMI/ClientServer/myServer
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/ClientServer/myServer/*.java
+
+$(CLASSDIR)ClientServer/*$(CLASSEXT): ClientServer
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) ClientServer/*.java
+
+$(CLASSDIR)DDS_RMI/ClientServer/*$(CLASSEXT): DDS_RMI/ClientServer
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/ClientServer/*.java
+
+clean:
+	-$(RM) $(CLASSES)
+
+realclean: clean
+	-$(RM) $(SHLIB) $(JARFILE)
+	-$(RM) $(GENERATED_DIRTY)
+	-$(RM) $(CLASSDIR)$(MANIFEST)
+	-rm -rf ClientServer ; rm -rf DDS_RMI
+
+check-syntax:
+	$(COMPILE.java) $(EXPORTFLAGS) $(CHK_SOURCES)
+

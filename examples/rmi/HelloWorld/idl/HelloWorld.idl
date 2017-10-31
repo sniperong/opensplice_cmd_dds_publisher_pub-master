@@ -1,0 +1,12 @@
+#include "dds_rmi.idl"
+
+module HelloWorld
+{
+    // interface definition
+local interface HelloService : ::DDS_RMI::Services
+{
+    string greet();
+    void stop();
+};
+
+};

@@ -1,0 +1,87 @@
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+JAVAC         = $(SPLICE_JAVAC)
+JAR           = jar
+JAVACFLAGS    = $(GENFLAGS)
+CLASSEXT      = .class
+CLASSDIR      = classes/
+OUTPUT_OPTION = -d $(CLASSDIR)
+COMPILE.java  = $(JAVAC) $(JAVACFLAGS) -cp $(JAVACCPATH) 
+JAVACCPATH    = "$(SPLICE_EXTRA_CP):$(CLASSDIR):../../../../jar/ddsrmi.jar:../../../../jar/dcpssaj.jar:"
+MAKEFILE      = Makefile.rmi_saj_printer_types
+DEPENDENCIES  = $(MAKEFILE)
+LTARGETDIR    = ./
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+GENFLAGS      =  
+CLASSES       =  $(CLASSDIR)DDS_RMI/printer/*$(CLASSEXT) $(CLASSDIR)DDS_RMI/printer/PrinterManager/*$(CLASSEXT) $(CLASSDIR)DDS_RMI/printer/Printer/*$(CLASSEXT) $(CLASSDIR)printer/*$(CLASSEXT)
+JARCLASSES    =  DDS_RMI/printer/*$(CLASSEXT) DDS_RMI/printer/PrinterManager/*$(CLASSEXT) DDS_RMI/printer/Printer/*$(CLASSEXT) printer/*$(CLASSEXT)
+JAREXT        = .jar
+JARFILE       = $(LTARGETDIR)$(LIBPREFIX)rmi_saj_printer_types$(LIBSUFFIX)$(JAREXT)
+MANIFEST      = rmi_saj_printer_types.manifest
+JARFLAGS      = cvfm
+SRC           = DDS_RMI/printer/*.java DDS_RMI/printer/PrinterManager/*.java DDS_RMI/printer/Printer/*.java printer/*.java
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(JARFILE)
+
+$(JARFILE): $(CLASSES) $(CLASSDIR)$(MANIFEST)
+	@$(TESTDIRSTART) "$(LTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(LTARGETDIR)"
+	cd $(CLASSDIR) && $(JAR) $(JARFLAGS) $(JARFILE) $(MANIFEST) $(JARCLASSES) 
+	$(MV) $(CLASSDIR)/$(JARFILE) .
+
+$(CLASSDIR)$(MANIFEST):
+	echo Class-Path: ../../../../jar/ddsrmi.jar ../../../../jar/dcpssaj.jar > $(CLASSDIR)$(MANIFEST)
+
+GENERATED_DIRTY = DDS_RMI/printer DDS_RMI/printer/PrinterManager DDS_RMI/printer/Printer printer Printer_Topics.idl
+
+
+.NOTPARALLEL:
+DDS_RMI/printer DDS_RMI/printer/PrinterManager DDS_RMI/printer/Printer printer Printer_Topics.idl: ../idl/Printer.idl
+	"../../../../bin/rmipp" -I "../../../../etc/idl" -l java ../idl/Printer.idl
+
+.PRECIOUS: $(GENERATED_DIRTY)
+$(CLASSES): $(GENERATED_DIRTY)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+$(CLASSDIR)DDS_RMI/printer/*$(CLASSEXT): DDS_RMI/printer
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/printer/*.java
+
+$(CLASSDIR)DDS_RMI/printer/PrinterManager/*$(CLASSEXT): DDS_RMI/printer/PrinterManager
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/printer/PrinterManager/*.java
+
+$(CLASSDIR)DDS_RMI/printer/Printer/*$(CLASSEXT): DDS_RMI/printer/Printer
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) DDS_RMI/printer/Printer/*.java
+
+$(CLASSDIR)printer/*$(CLASSEXT): printer
+	@$(TESTDIRSTART) "$(CLASSDIR)" $(TESTDIREND) $(MKDIR) "$(CLASSDIR)"
+	$(COMPILE.java) $(EXPORTFLAGS) $(OUTPUT_OPTION) printer/*.java
+
+clean:
+	-$(RM) $(CLASSES)
+
+realclean: clean
+	-$(RM) $(SHLIB) $(JARFILE)
+	-$(RM) $(GENERATED_DIRTY)
+	-$(RM) $(CLASSDIR)$(MANIFEST)
+	-rm -rf printer ; rm -rf DDS_RMI
+
+check-syntax:
+	$(COMPILE.java) $(EXPORTFLAGS) $(CHK_SOURCES)
+

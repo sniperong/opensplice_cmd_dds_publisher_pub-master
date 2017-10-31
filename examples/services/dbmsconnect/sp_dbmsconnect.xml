@@ -1,0 +1,35 @@
+<OpenSplice>
+   <Domain>
+      <Name>OpenSpliceDbmsConnect6.8.2</Name>
+      <Id>1</Id>
+      <SingleProcess>true</SingleProcess>
+      <Database>
+         <Size>0</Size>
+      </Database>
+      <Lease>
+         <ExpiryTime update_factor="0.5">5.0</ExpiryTime>
+      </Lease>
+      <Service name="dbmsconnect">
+         <Command>dbmsconnect</Command>
+      </Service>
+   </Domain>
+   <DbmsConnectService name="dbmsconnect">
+      <DdsToDbms>
+         <NameSpace odbc="${ODBC_LIB_NAME}" dsn="${MY_DSN}" name="dbms2dds" partition="ChatRoom" topic="Chat*" update_frequency="0.0" usr="SYSTEM" pwd="SYSTEM">
+            <Mapping filter="userID&lt;&gt;1" topic="Chat_ChatMessage"/>
+         </NameSpace>
+      </DdsToDbms>
+      <DbmsToDds publish_initial_data="false">
+         <NameSpace odbc="${ODBC_LIB_NAME}" dsn="${MY_DSN}" name="dds2dbms" partition="ChatRoom" table="Sql*" usr="SYSTEM" pwd="SYSTEM">
+            <Mapping table="SqlChat_ChatMessage" topic="Chat_ChatMessage"/>
+            <Mapping table="SqlChat_NameService" topic="Chat_NameService"/>
+         </NameSpace>
+      </DbmsToDds>
+      <Tracing>
+         <OutputFile>dbmsconnect.log</OutputFile>
+         <Timestamps>false</Timestamps>
+         <Verbosity>FINEST</Verbosity>
+      </Tracing>
+   </DbmsConnectService>
+</OpenSplice>
+

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "
+http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Vortex OpenSplice Release Notes - Changes and Fixed Bugs V5</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../docs/css/prismstyle.css" type="text/css">
+
+</head>
+<body>
+<h1> Vortex OpenSplice RMI EXAMPLES </h1>
+<ul>
+  <li>Summary</li>
+  <li><a href ="HelloWorld/README.html">HelloWorld </a></li>
+  <li><a href ="ClientServer/README.html">ClientServer </a></li>
+  <li><a href ="Printer/README.html">Printer </a></li>
+</ul><h2> Overview </h2>
+<ul>
+  <li><a href ="HelloWorld/README.html">HelloWorld</a>
+  <p>This example is the usual basic example using Vortex OpenSplice RMI.</p></li>
+
+  <li><a href ="ClientServer/README.html">ClientServer </a>
+  <p>This example demonstrates RMI invocations of a more advanced service interface
+  having different IDL operation forms with different parameter types and passing modes.</p></li>
+
+  <li><a href ="Printer/README.html">Printer </a>
+    <p>This example is an advanced example using synchronous and asynchronous invocation
+    modes of OpenSplie RMI.</p>
+  </li>
+
+</ul>
+ <p> Each example is written in Java and C++.</p>
+
+ <h2>Building the examples</h2>
+<p>The Vortex OpenSplice RMI examples are located in $OSPL_HOME/examples/rmi directory. Each example
+has a Java and a C++ version. The following sections explain the build procedure.
+
+ <h3><A name="env_setup">Environment Setup</A></h3>
+<p>Let's call <b><i>OpenSplice_install_dir</i></b> the Vortex OpenSplice installation directory.</p>
+<p>The Vortex OpenSplice environment variables must be set to build and run the examples correctly.
+<p>On Linux, open a terminal and source the  "<i>OpenSplice_install_dir/release.com</i>" script supplied with the distribution.
+<p>On Windows, The <i>Vortex OpenSplice Command Prompt</i> can be selected from the start menu.
+Alternatively, open a windows command prompt and execute the "<i>OpenSplice_install_dir\release.bat</i>" batch script supplied with the distribution.</p>
+
+
+<h3>Linux build</h3>
+<h4>C++ examples</h4>
+ <p>The C++ examples can be built using the provided makefiles either individually from the example-specific
+ sub-directory, or jointly from $OSPL_HOME/examples/rmi global directory.</p>
+ <p>To build all the RMI C++ examples, please type these commands :</p>
+    <pre>
+    $ cd $OSPL_HOME/examples/rmi
+    $ make
+    </pre>
+
+<h4>Java examples</h4>
+ <p>Each Java example can be built from the java sub-directory of the example directory.
+ The following commands show how to build the HelloWorld Java example on Linux :</p>
+    <pre>
+    $ cd $OSPL_HOME/examples/rmi/HelloWorld/java
+    $ make
+    </pre>
+
+  <h3>Windows build</h3>
+  <h4>C++ examples</h4>
+ <p>The C++ examples can be built in Visual Studio using the provided solution files.
+ After installing Vortex OpenSplice, from the start menu select the installed version of Vortrex OpenSplice,
+  then select <b>Examples/Standalone C and C++ Examples</b>.
+  This item will build all C and C++ examples including the RMI ones.</p>
+
+  <h4>Java examples</h4>
+  <p>A set of Windows batch files are provided to build the Java examples on Windows.
+  These files are located in the java directory of each example-specific sub-directory.
+  Start an Vortex OpenSplice command prompt and simply run the <i>BUILD.bat</i> script.
+
+ <pre>
+C:\Program Files\PrismTech\OpenSpliceDDS\V6.2.0\HDE\x86.win32>cd examples\rmi\HelloWorld\java
+C:\Program Files\PrismTech\OpenSpliceDDS\V6.2.0\HDE\x86.win32\examples\rmi\HelloWorld\java>BUILD.bat
+ </pre>
+
+</body>
+</html>
